@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moonlight App Store | Download & Publish Free APKs & Apps</title>
+  <meta name="description" content="Moonlight App Store - Discover, download, and publish verified Android APKs, games, tools, and software with instant direct downloads.">
+
+  <!-- Favicon: Glowing Crescent Moon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238b5cf6'%3E%3Cpath d='M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts & Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            space: '#070913',
+            spaceCard: '#0f172a',
+            moonViolet: '#8b5cf6',
+            moonCyan: '#06b6d4',
+            moonIndigo: '#6366f1',
+            moonPink: '#ec4899',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome 6 for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-slate-100 flex flex-col min-h-screen selection:bg-purple-600 selection:text-white">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-40 w-full glass-panel border-b border-white/10 bg-opacity-80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:scale-105 transition duration-300">
+          <i class="fa-solid fa-moon text-white text-xl animate-float"></i>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="text-xl sm:text-2xl font-black tracking-tight font-heading text-white">MOONLIGHT</span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold tracking-wider">STORE</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-medium tracking-wide hidden sm:inline-block">The Open App Universe</span>
+        </div>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="flex-1 max-w-lg hidden md:block relative">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input 
+            type="text" 
+            id="searchInput"
+            placeholder="Search apps, games, APKs, tools... (Press '/' to focus)" 
+            class="w-full pl-11 pr-10 py-2.5 rounded-xl glass-input text-sm text-slate-200 placeholder-slate-400 focus:outline-none"
+            autocomplete="off"
+          >
+          <button id="clearSearchBtn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <!-- How To Install Guide Button -->
+        <button 
+          id="howToInstallBtn"
+          class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition"
+          title="How to install APK files on Android & Windows"
+        >
+          <i class="fa-solid fa-circle-question text-cyan-400"></i>
+          <span>How to Install</span>
+        </button>
+
+        <!-- Upload App Button (Main User Feature) -->
+        <button 
+          id="openUploadModalBtn"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] active:scale-95 transition-all duration-200"
+        >
+          <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
+          <span>Upload App</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Search Bar (Visible on mobile screens) -->
+    <div class="px-4 pb-3 md:hidden">
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+        <input 
+          type="text" 
+          id="mobileSearchInput"
+          placeholder="Search games, tools, APKs..." 
+          class="w-full pl-9 pr-9 py-2 rounded-xl glass-input text-xs text-slate-200 placeholder-slate-400"
+        >
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SPOTLIGHT BANNER ================= -->
+  <section class="relative overflow-hidden py-8 lg:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div class="relative rounded-3xl glass-panel border border-white/10 p-6 sm:p-10 lg:p-12 overflow-hidden bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900/60 shadow-2xl">
+      
+      <!-- Background Ambient Glows -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-2xl space-y-4 relative z-10">
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 text-purple-300 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>Moonlight Store • 100% Free Downloads</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight text-white">
+          Discover, Download & <br>
+          <span class="text-moon-gradient">Explore New Apps</span>
+        </h1>
+
+        <p class="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
+          A fast, open and direct app marketplace. Download clean Android APKs, desktop tools, and games without ads or countdown timers.
+        </p>
+
+        <!-- Action button in Hero (Only Explore All Apps) -->
+        <div class="pt-2">
+          <a 
+            href="#store-section"
+            class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-white text-slate-900 hover:bg-slate-100 transition shadow-lg shadow-white/10"
+          >
+            <i class="fa-solid fa-compass text-indigo-600"></i>
+            <span>Explore All Apps</span>
+          </a>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="pt-4 flex flex-wrap items-center gap-6 text-xs text-slate-400 border-t border-white/5">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-emerald-400 text-sm"></i>
+            <span>Virus-Free Scanned</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-bolt text-amber-400 text-sm"></i>
+            <span>Direct Fast Download</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-user-check text-cyan-400 text-sm"></i>
+            <span>No Account Required</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= STORE SECTION: FILTERS & APP GRID ================= -->
+  <main id="store-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 pb-16">
+    
+    <!-- Filter Bar Header -->
+    <div class="glass-panel rounded-2xl p-4 border border-white/10 mb-8 space-y-4">
+      
+      <!-- Top Row: Category Pills -->
+      <div class="flex items-center justify-between gap-4 overflow-x-auto no-scrollbar pb-1" id="categoryPillsContainer">
+        <!-- Populated via app.js -->
+      </div>
+
+      <div class="h-px bg-white/5 w-full"></div>
+
+      <!-- Bottom Row: Sub-filters (Platforms, Sort, Uploaded Filter) -->
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+        
+        <!-- Platform Selector -->
+        <div class="flex items-center gap-1.5 bg-black/30 p-1 rounded-xl border border-white/5">
+          <span class="text-slate-400 px-2 font-medium">Platform:</span>
+          <button data-platform="all" class="platform-filter active-platform px-3 py-1 rounded-lg font-semibold bg-purple-600 text-white transition">All</button>
+          <button data-platform="Android" class="platform-filter px-3 py-1 rounded-lg font-semibold text-slate-300 hover:text-white transition">Android APK</button>
+          <button data-platform="Windows" class="platform-filter px-3 py-1 rounded-lg font-semibold text-slate-300 hover:text-white transition">Windows</button>
+        </div>
+
+        <div class="flex items-center gap-3 ml-auto">
+          <!-- "Only My Uploads" Toggle -->
+          <button 
+            id="onlyMyUploadsToggle"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition"
+          >
+            <i class="fa-solid fa-user-tag text-purple-400"></i>
+            <span>My Uploaded Apps</span>
+            <span id="myUploadsCountBadge" class="hidden px-1.5 py-0.2 rounded-full bg-purple-500/30 text-purple-200 text-[10px]">0</span>
+          </button>
+
+          <!-- Sorting Dropdown -->
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400 hidden sm:inline">Sort:</span>
+            <select 
+              id="sortSelect"
+              class="glass-input rounded-xl px-3 py-1.5 text-xs text-slate-200 bg-spaceCard focus:outline-none cursor-pointer"
+            >
+              <option value="featured">Featured First</option>
+              <option value="rating">Highest Rated ★</option>
+              <option value="popular">Most Downloads</option>
+              <option value="newest">Newest Update</option>
+              <option value="name">Alphabetical (A-Z)</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Active Search / Category Indicator -->
+    <div id="filterIndicatorRow" class="hidden items-center justify-between mb-6 px-1">
+      <div class="flex items-center gap-2 text-sm text-slate-300">
+        <span>Showing results for:</span>
+        <span id="activeFilterTag" class="px-2.5 py-1 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-semibold"></span>
+        <button id="resetFiltersBtn" class="text-xs text-slate-400 hover:text-red-400 ml-2 underline">Reset filters</button>
+      </div>
+      <div id="resultsCountText" class="text-xs text-slate-400"></div>
+    </div>
+
+    <!-- Apps Grid -->
+    <div id="appsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- App Cards injected dynamically by app.js -->
+    </div>
+
+    <!-- Empty State (When no apps match) -->
+    <div id="emptyState" class="hidden flex-col items-center justify-center py-20 px-4 text-center">
+      <div class="w-20 h-20 rounded-3xl bg-slate-800/80 border border-white/10 flex items-center justify-center text-3xl text-purple-400 mb-4">
+        <i class="fa-solid fa-box-open"></i>
+      </div>
+      <h3 class="text-xl font-bold font-heading text-white mb-2">No Apps Found</h3>
+      <p class="text-sm text-slate-400 max-w-md mb-6">
+        We couldn't find any apps matching your current filter. You can try searching with different keywords or upload your own app right now!
+      </p>
+      <div class="flex items-center gap-3">
+        <button id="emptyResetBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/15 text-white transition">
+          Clear Search
+        </button>
+        <button id="emptyUploadBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 text-white transition shadow-lg shadow-purple-500/20">
+          Upload Your App
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= HOW TO INSTALL MODAL ================= -->
+  <div id="howToInstallModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+    <div class="modal-content glass-panel rounded-3xl border border-white/15 max-w-2xl w-full p-6 sm:p-8 bg-slate-900 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      
+      <!-- Close button -->
+      <button class="modal-close-btn absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition">
+        <i class="fa-solid fa-xmark text-base"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold font-heading text-white">How to Install Downloaded Apps</h3>
+          <p class="text-xs text-slate-400">Step-by-step guide for Android APK & Windows PC</p>
+        </div>
+      </div>
+
+      <!-- Instructions Tabs / Sections -->
+      <div class="space-y-6 text-sm text-slate-300">
+        
+        <!-- Android Section -->
+        <div class="bg-black/40 rounded-2xl p-5 border border-white/5 space-y-3">
+          <div class="flex items-center gap-2 text-cyan-400 font-bold text-base">
+            <i class="fa-brands fa-android text-lg"></i>
+            <span>For Android Devices (.APK)</span>
+          </div>
+          <ol class="space-y-2.5 text-xs text-slate-300 list-decimal list-inside leading-relaxed">
+            <li><strong>Download APK:</strong> Click the <span class="text-purple-400 font-semibold">"Download APK"</span> button on any app card.</li>
+            <li><strong>Open Notification:</strong> When the download completes, tap the download notification or go to your <em>Files / Downloads</em> folder.</li>
+            <li><strong>Allow Unknown Sources:</strong> If Android displays <em>"For your security, your phone is not allowed to install unknown apps"</em>, tap <strong>Settings</strong> and switch on <strong>"Allow from this source"</strong>.</li>
+            <li><strong>Tap Install:</strong> Return to the prompt and tap <strong>Install</strong>. Once done, tap Open!</li>
+          </ol>
+          <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[11px] flex items-center gap-2">
+            <i class="fa-solid fa-shield-check text-sm"></i>
+            <span>All apps on Moonlight Store are clean and virus-scanned. Safe to install!</span>
+          </div>
+        </div>
+
+        <!-- Windows Section -->
+        <div class="bg-black/40 rounded-2xl p-5 border border-white/5 space-y-3">
+          <div class="flex items-center gap-2 text-indigo-400 font-bold text-base">
+            <i class="fa-brands fa-windows text-lg"></i>
+            <span>For Windows PC (.EXE / .ZIP)</span>
+          </div>
+          <ol class="space-y-2.5 text-xs text-slate-300 list-decimal list-inside leading-relaxed">
+            <li>Click <strong>Download</strong> to save the setup installer or ZIP package.</li>
+            <li>Double-click the downloaded file in your Downloads folder.</li>
+            <li>If Windows SmartScreen shows <em>"Windows protected your PC"</em>, click <strong>"More info"</strong> and select <strong>"Run anyway"</strong>.</li>
+          </ol>
+        </div>
+
+      </div>
+
+      <div class="mt-8 pt-4 border-t border-white/10 flex justify-end">
+        <button class="modal-close-btn px-6 py-2.5 rounded-xl font-bold text-xs bg-purple-600 hover:bg-purple-700 text-white transition">
+          Got It, Thanks!
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= APP DETAILS MODAL ================= -->
+  <div id="appDetailsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-overlay">
+    <div class="modal-content glass-panel rounded-3xl border border-white/15 max-w-3xl w-full p-6 sm:p-8 bg-slate-900 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      
+      <!-- Close button -->
+      <button class="modal-close-btn absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition z-10">
+        <i class="fa-solid fa-xmark text-base"></i>
+      </button>
+
+      <div id="modalAppContent">
+        <!-- Populated dynamically via app.js -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= UPLOAD APP MODAL (FOR USER TO ADD THEIR APPS) ================= -->
+  <div id="uploadAppModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-overlay">
+    <div class="modal-content glass-panel rounded-3xl border border-white/15 max-w-2xl w-full p-6 sm:p-8 bg-slate-900 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      
+      <!-- Close button -->
+      <button class="modal-close-btn absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition">
+        <i class="fa-solid fa-xmark text-base"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-pink-600 flex items-center justify-center text-xl text-white shadow-lg shadow-purple-500/30">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold font-heading text-white">Publish New App</h3>
+          <p class="text-xs text-slate-400">Upload your APK or software so anyone can download it</p>
+        </div>
+      </div>
+
+      <!-- Upload Form -->
+      <form id="uploadAppForm" class="space-y-5 text-xs sm:text-sm">
+        
+        <!-- App Title & Developer -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">App Name / Title <span class="text-red-400">*</span></label>
+            <input 
+              type="text" 
+              name="title" 
+              required 
+              placeholder="e.g. Moonlight Player Pro" 
+              class="w-full px-4 py-2.5 rounded-xl glass-input text-slate-100"
+            >
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">Developer / Studio Name <span class="text-red-400">*</span></label>
+            <input 
+              type="text" 
+              name="developer" 
+              required 
+              placeholder="e.g. Your Name or Studio" 
+              class="w-full px-4 py-2.5 rounded-xl glass-input text-slate-100"
+            >
+          </div>
+        </div>
+
+        <!-- Category, Platform, Version, Size -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">Category <span class="text-red-400">*</span></label>
+            <select name="category" required class="w-full px-3 py-2.5 rounded-xl glass-input bg-spaceCard text-slate-200">
+              <option value="Tools">Tools</option>
+              <option value="Games">Games</option>
+              <option value="Productivity">Productivity</option>
+              <option value="Media">Media</option>
+              <option value="Social">Social</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">Platform <span class="text-red-400">*</span></label>
+            <select name="platform" required class="w-full px-3 py-2.5 rounded-xl glass-input bg-spaceCard text-slate-200">
+              <option value="Android">Android (APK)</option>
+              <option value="Windows">Windows (EXE/ZIP)</option>
+              <option value="Cross-platform">Cross-platform</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">Version</label>
+            <input 
+              type="text" 
+              name="version" 
+              placeholder="v1.0.0" 
+              value="v1.0.0"
+              class="w-full px-3 py-2.5 rounded-xl glass-input text-slate-100"
+            >
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">File Size</label>
+            <input 
+              type="text" 
+              name="size" 
+              id="uploadFileSizeInput"
+              placeholder="e.g. 25 MB" 
+              class="w-full px-3 py-2.5 rounded-xl glass-input text-slate-100"
+            >
+          </div>
+        </div>
+
+        <!-- App File: Real File Upload OR Download URL -->
+        <div class="p-4 rounded-2xl bg-black/30 border border-white/10 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-200 flex items-center gap-2">
+              <i class="fa-solid fa-file-arrow-up text-purple-400"></i>
+              App File to Download
+            </span>
+            <span class="text-[11px] text-slate-400">Choose file or enter direct link</span>
+          </div>
+
+          <!-- Real File Input -->
+          <div class="dropzone p-4 rounded-xl text-center cursor-pointer hover:border-purple-500 transition" id="fileDropZone">
+            <input type="file" id="appFileInput" name="appFile" class="hidden" accept=".apk,.exe,.zip,.rar,.tar,.gz,.msi">
+            <i class="fa-solid fa-cloud-arrow-up text-2xl text-purple-400 mb-2"></i>
+            <p class="text-xs font-semibold text-slate-200" id="fileInputLabel">Click to select APK / Installer from your computer</p>
+            <p class="text-[10px] text-slate-400 mt-1">Supports .apk, .exe, .zip, etc.</p>
+          </div>
+
+          <!-- OR Direct Download URL -->
+          <div class="relative flex py-1 items-center">
+            <div class="flex-grow border-t border-white/10"></div>
+            <span class="flex-shrink mx-4 text-[11px] text-slate-400 uppercase font-semibold">OR Enter Download URL</span>
+            <div class="flex-grow border-t border-white/10"></div>
+          </div>
+
+          <div>
+            <input 
+              type="url" 
+              id="appUrlInput"
+              name="downloadUrl" 
+              placeholder="https://drive.google.com/... or MediaFire / GitHub release URL" 
+              class="w-full px-4 py-2.5 rounded-xl glass-input text-slate-100 text-xs"
+            >
+          </div>
+        </div>
+
+        <!-- App Icon: Upload file OR pick color icon -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">App Icon (Optional Image)</label>
+            <input 
+              type="file" 
+              id="appIconInput"
+              accept="image/*"
+              class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-600/30 file:text-purple-200 hover:file:bg-purple-600/50 cursor-pointer"
+            >
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1.5">Or Choose Neon Icon Style</label>
+            <div class="flex items-center gap-2 pt-1" id="iconColorPresets">
+              <button type="button" data-accent="from-indigo-500 to-purple-600" class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 ring-2 ring-white/60 focus:outline-none"></button>
+              <button type="button" data-accent="from-cyan-500 to-blue-600" class="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 hover:scale-105 transition focus:outline-none"></button>
+              <button type="button" data-accent="from-emerald-500 to-teal-600" class="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 hover:scale-105 transition focus:outline-none"></button>
+              <button type="button" data-accent="from-pink-500 to-rose-600" class="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 hover:scale-105 transition focus:outline-none"></button>
+              <button type="button" data-accent="from-amber-500 to-orange-600" class="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 hover:scale-105 transition focus:outline-none"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Short & Full Description -->
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1.5">Short Summary (1 sentence) <span class="text-red-400">*</span></label>
+          <input 
+            type="text" 
+            name="shortDesc" 
+            required 
+            placeholder="e.g. Ultra-smooth launcher with custom gestures and battery saver." 
+            class="w-full px-4 py-2.5 rounded-xl glass-input text-slate-100"
+          >
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1.5">Detailed Description</label>
+          <textarea 
+            name="description" 
+            rows="3" 
+            placeholder="Explain features, benefits, and how to use your app..." 
+            class="w-full px-4 py-2.5 rounded-xl glass-input text-slate-100"
+          ></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-white/10">
+          <button 
+            type="button" 
+            class="modal-close-btn px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/5 transition"
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="px-6 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition"
+          >
+            <i class="fa-solid fa-rocket mr-1.5"></i>
+            Publish App to Store
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ================= QR CODE MODAL (FOR MOBILE SCAN) ================= -->
+  <div id="qrModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+    <div class="modal-content glass-panel rounded-3xl border border-white/15 max-w-sm w-full p-6 text-center bg-slate-900 shadow-2xl relative">
+      <button class="modal-close-btn absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center mx-auto mb-3 text-xl">
+        <i class="fa-solid fa-qrcode"></i>
+      </div>
+      <h3 class="font-bold font-heading text-lg text-white mb-1">Scan to Download</h3>
+      <p class="text-xs text-slate-400 mb-4" id="qrAppTitle">Open your phone camera to scan</p>
+
+      <div class="bg-white p-4 rounded-2xl inline-block shadow-inner mb-4">
+        <img id="qrCodeImage" src="" alt="Download QR Code" class="w-48 h-48 mx-auto">
+      </div>
+
+      <p class="text-[11px] text-slate-400">Point your smartphone camera to quickly download this app onto your mobile.</p>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="glass-panel border-t border-white/10 mt-auto py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Brand column -->
+      <div class="space-y-3 md:col-span-1">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white">
+            <i class="fa-solid fa-moon text-sm"></i>
+          </div>
+          <span class="text-base font-bold font-heading text-white">MOONLIGHT STORE</span>
+        </div>
+        <p class="text-slate-400 leading-relaxed text-[11px]">
+          The free, open alternative app store for direct downloads. Safe, clean, and community-first.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="space-y-2">
+        <h4 class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Categories</h4>
+        <ul class="space-y-1.5">
+          <li><a href="#store-section" class="hover:text-purple-300 transition">Action Games</a></li>
+          <li><a href="#store-section" class="hover:text-purple-300 transition">Tools & Utilities</a></li>
+          <li><a href="#store-section" class="hover:text-purple-300 transition">Media & Players</a></li>
+          <li><a href="#store-section" class="hover:text-purple-300 transition">Productivity</a></li>
+        </ul>
+      </div>
+
+      <!-- Developer Portal -->
+      <div class="space-y-2">
+        <h4 class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Publishers</h4>
+        <ul class="space-y-1.5">
+          <li><a href="#" id="footerUploadLink" class="hover:text-purple-300 transition">Submit New App</a></li>
+          <li><a href="#" id="exportCatalogBtn" class="hover:text-purple-300 transition">Export Apps Backup (JSON)</a></li>
+          <li><a href="#" id="importCatalogBtn" class="hover:text-purple-300 transition">Import Apps Catalog</a></li>
+          <li><input type="file" id="importFileInput" accept=".json" class="hidden"></li>
+        </ul>
+      </div>
+
+      <!-- Safety & Info -->
+      <div class="space-y-2">
+        <h4 class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Security & Trust</h4>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          Every APK package is scanned with multiple security engines. No malware, no invasive spyware, 100% clean direct files.
+        </p>
+        <div class="pt-1 flex items-center gap-2 text-emerald-400 text-[11px]">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Moonlight Protect Active</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-[11px]">
+      <div>&copy; 2026 Moonlight App Store. Built with passion for open app sharing.</div>
+      <div class="flex items-center gap-4">
+        <span>Fast Direct CDN</span>
+        <span>•</span>
+        <span>Zero Ads</span>
+        <span>•</span>
+        <span>Community Driven</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/apps-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

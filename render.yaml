@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: moonlight-app-store
+    runtime: node
+    plan: free
+    buildCommand: echo "Static files ready"
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production

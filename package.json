@@ -1,0 +1,13 @@
+{
+  "name": "moonlight-app-store",
+  "version": "1.0.0",
+  "description": "Moonlight App Store - Open web app marketplace to host and download apps and APKs.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo Static build ready"
+  },
+  "keywords": ["app-store", "apk-download", "moonlight", "web-store"],
+  "author": "Moonlight Team",
+  "license": "MIT"
+}
